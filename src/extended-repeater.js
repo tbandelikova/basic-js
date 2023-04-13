@@ -16,39 +16,34 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function repeater(str, options) {
-  let result = '';
-  let step = '';
-  let {repeatTimes, separator, addition, additionRepeatTimes, additionSeparator} = options;
-  if(repeatTimes&&repeatTimes > 1) {
-      for(let i = 0; i < repeatTimes - 1; i++) {
-          step = String(str);
-          if(addition || String(addition) == 'underfined') {
-              if(additionRepeatTimes&&additionRepeatTimes > 1) {
-                  for(let j = 0; j < additionRepeatTimes - 1; j++) {
-                      step += (String(addition) + (additionSeparator ? additionSeparator : '|'));
-                  }
-              }
-              step += String(addition);
-          }
-          result += (step + (separator ? separator : '+'));
-      }
-      result += step
-  } else {
-      step = String(str);
-      if(addition || String(addition) == 'underfined') {
-          if(additionRepeatTimes&&additionRepeatTimes > 1) {
-              for(let j = 0; j < additionRepeatTimes - 1; j++) {
-                  step += (String(addition) + (additionSeparator ? additionSeparator : '|'));
-              }
-          }
-          step += String(addition);
-      }
-      result += step;
-  }
+    let { repeatTimes, separator, addition, additionRepeatTimes, additionSeparator } = options;
+    let a = String(str);
+    let b = separator ? separator : '+';
+    let c = getAdditions(addition, additionRepeatTimes, additionSeparator);
+    let result = '';
+    if (repeatTimes && repeatTimes > 1) {
+        for (let i = 0; i < repeatTimes - 1; i++) {
+            result += (a + c + b);
+        }
+    }
+    result += (a + c);
+    return result;
+}
 
-  return result;
+function getAdditions(add, rep, sep) {
+    let a = String(add);
+    let b = sep ? sep : '|';
+    let result = '';
+    if (a == 'undefined') return '';
+    if (rep && rep > 1) {
+        for (let i = 0; i < rep - 1; i++) {
+            result += (a + b);
+        }
+    }
+    result += a;
+    return result;
 }
 
 module.exports = {
-  repeater
+    repeater
 };
