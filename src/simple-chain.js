@@ -15,8 +15,8 @@ const chainMaker = {
     return this;
   },
   removeLink(position) {
-    let max = this.link.length;
-    if(!position || (typeof position !== 'number') || position > max || position == 0) throw Error("You can't remove incorrect link!");
+    let max = this.link.length - 1;
+    if(!position || (typeof position !== 'number') || position > max || position === 0) throw Error("You can't remove incorrect link!");
     this.link.splice(position - 1, 1);
     return this;
   },
@@ -25,7 +25,9 @@ const chainMaker = {
     return this;
   },
   finishChain() {
-    return this.link.join('~~');
+    let finish = [...this.link].join('~~');
+    this.link = [];
+    return finish;
   }
 };
 
